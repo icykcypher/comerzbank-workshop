@@ -1,0 +1,38 @@
+name: Weather Report
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 * * * *"  
+
+jobs:
+  weather:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        city: [Prague, London, New York]
+
+    steps:
+      - name: Fetch Weather
+        run: |
+          CITY="${{ matrix.city }}"
+          WEATHER=$(curl -s "wttr.in/${CITY}?format=3")
+
+          echo "Weather in $CITY: $WEATHER"
+
+          # Save to txt file
+          FILE_NAME="${CITY}_weather.txt"
+          echo "$WEATHER" > "$FILE_NAME"
+
+          # Append to GitHub Step Summary
+          echo "## $CITY Weather" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**$WEATHER**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: weather-${{ matrix.city }}
+          path: ${{ matrix.city }}_weather.txt
