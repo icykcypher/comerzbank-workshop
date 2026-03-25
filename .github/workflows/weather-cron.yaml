@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        city: ["Prague", "London", "New York"]
+        city: ["Prague", "London", "New_York"]
 
     steps:
       - name: Fetch Weather
