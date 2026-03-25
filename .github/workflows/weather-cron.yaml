@@ -1,4 +1,4 @@
-name: Weather Report
+name: Weather Cron Report
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        city: [Prague, London, New York]
+        city: ["Prague", "London", "New York"]
 
     steps:
       - name: Fetch Weather
