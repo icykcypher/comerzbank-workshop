@@ -2,9 +2,6 @@ name: Weather Cron Report
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "15 * * * *"  
-
 jobs:
   weather:
     runs-on: ubuntu-latest
